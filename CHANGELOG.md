@@ -1,8 +1,22 @@
 # Changelog
 
+### Version 0.5.0
+- Dropped Python 2.7, 3.6, and 3.7 support, minimum supported version is 3.8
+- Migrate to PEP 517 compliant build with a `pyproject.toml` file
+- Added type annotation
+- Added `WSManFaultError` which contains WSManFault specific information when receiving a 500 WSMan fault response
+  - This contains pre-parsed values like the code, subcode, wsman fault code, wmi error code, and raw response
+  - It can be used by the caller to implement fallback behaviour based on specific error codes
+- Added public API `protocol.build_wsman_header` that can create the standard WSMan header used by the protocol
+  - This can be used to craft custom WSMan messages that are not supported in the existing actions
+- Added public API `protocol.get_command_output_raw`
+  - This can be used to send a single WSMan receive request and get the output
+  - Unlike `protocol.get_command_output`, it will not loop until the command is done and will not catch a timeout exception
+
 ### Version 0.4.3
 - Fix invalid regex escape sequences.
 - Decoding CLIXML failures for `run_ps` will create a `UserWarning` rather than printing the warning.
+- Remove usage of deprecated Python API to support Python 3.11
 
 ### Version 0.4.2
 - Dropped Python 3.5 from support matrix as it is EOL.
